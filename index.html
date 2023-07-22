@@ -4,9 +4,9 @@
 	<meta charset="utf-8">
 	<script>
 		function setSearchEngine (event) {
-			let engineChecked = document.querySelector("input[name=engine]:checked").value;
+			let engineChecked = document.querySelector("input[name=engine]:checked");
 			const searchForm = document.getElementById("searchForm");
-			const query = document.getElementById('q');
+			const query = document.getElementById('query');
 
 			let actions = {
 				'google':'https://www.google.com/search?',
@@ -15,7 +15,16 @@
 				'ask':'https://www.ask.com/'
 			}
 
-			let actionURL = actions[engineChecked];
+			// Validation
+			if (query.value.trim() === '') {
+				alert('You have not entered a search query.');
+				event.preventDefault();
+			} else if (engineChecked === null) {
+				alert('You did not select a search engine.');
+				event.preventDefault();
+			}
+
+			let actionURL = actions[engineChecked.value];
 			searchForm.action = actionURL;
 
 			// event.preventDefault();
@@ -32,16 +41,17 @@
 </head>
 
 <body>
-
-	<form id="searchForm" target="_blank">
-    <!-- TODO: add form elements -->
-		<input style="width: 95%;" type="text" name="q" />
-		<br />
-		<label><input type="radio" name="engine" value="google"/>Google</label>
-		<label><input type="radio" name="engine" value="duckDuckGo" />DuckDuckGo</label>
-		<label><input type="radio" name="engine" value="bing" />Bing</label>
-		<label><input type="radio" name="engine" value="ask" />Ask</label>
-		<input style="margin-left: 50px;" type="submit" value="Go!"/>
-	</form>
+	<div style="width: 600px; margin: 10px auto;" id="container">
+		<form id="searchForm" target="_blank">
+		<!-- TODO: add form elements -->
+			<input id="query" style="width: 90%; margin-bottom: 20px;" type="text" name="q" />
+			<br />
+			<label><input type="radio" name="engine" value="google"/>Google</label>
+			<label><input type="radio" name="engine" value="duckDuckGo" />DuckDuckGo</label>
+			<label><input type="radio" name="engine" value="bing" />Bing</label>
+			<label><input type="radio" name="engine" value="ask" />Ask</label>
+			<input style="margin-left: 50px;" type="submit" value="Go!"/>
+		</form>
+	</div>
 
 </body>
